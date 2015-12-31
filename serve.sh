@@ -12,7 +12,7 @@ response () {
 }
 
 # No name given
-[[ -z "$NAME" ]] && response "200 OK"
+[[ -z "$NAME" ]] && response "400 Bad Request"
 
 # Check if NAME is available
 [[ "$(docker inspect --format='{{.State.Status}}' "$NAME" 2>/dev/null)" = "running" ]] && response "200 OK"

@@ -6,7 +6,7 @@ A Bash webserver that inspects a Docker container (by given name) to check if it
 
 ## How to use
 
-```
+```bash
 docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock --name stillonboard mauvm/stillonboard
 curl localhost:9000/stillonboard # 200 OK
 curl localhost:9000/mysql        # 503 Service Unavailable
@@ -15,6 +15,15 @@ curl localhost:9000/mysql        # 503 Service Unavailable
 
 This allows you to easily set up an external monitoring tool, like [Uptime Robot](https://uptimerobot.com/).
 
+## Debugging
+
+```bash
+docker exec -it stillonboard bash
+docker ps # May give client/server version mismatch error
+curl localhost:9000/stillonboard
+```
+
 ## To do
 
+- [ ] Fix Uptime Robot monitor (somehow `HEAD|GET 200 OK` response is not picked up)
 - [ ] Add support for whitelisting container names
