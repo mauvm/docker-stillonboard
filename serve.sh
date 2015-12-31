@@ -7,7 +7,12 @@ REGEX='^(HEAD|GET) /([a-zA-Z0-9_]*) (HTTP/[0-9].[0-9])\s?$'
 NAME=${BASH_REMATCH[2]}
 HTTP=${BASH_REMATCH[3]}
 response () {
+	DATE=$(date +"%a, %d %b %Y %H:%M:%S %Z")
 	echo "${HTTP:-HTTP/1.1} $1"
+	echo "Date: $DATE"
+	echo "Expires: $DATE"
+	echo "Server: stillonboard"
+	echo "Access-Control-Allow-Origin: *"
 	exit 0
 }
 
