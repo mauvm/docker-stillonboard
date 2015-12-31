@@ -2,10 +2,10 @@
 
 # Parse request
 read LINE
-REGEX='^GET /([a-zA-Z0-9_]*) (HTTP/[0-9].[0-9])\s?$'
+REGEX='^(HEAD|GET) /([a-zA-Z0-9_]*) (HTTP/[0-9].[0-9])\s?$'
 [[ "$LINE" =~ $REGEX ]]
-NAME=${BASH_REMATCH[1]}
-HTTP=${BASH_REMATCH[2]}
+NAME=${BASH_REMATCH[2]}
+HTTP=${BASH_REMATCH[3]}
 response () {
 	echo "${HTTP:-HTTP/1.1} $1"
 	exit 0
