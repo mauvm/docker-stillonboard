@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Parse request
+read LINE
+REGEX='^GET /([a-zA-Z0-9_]*) (HTTP/[0-9].[0-9])\s?$'
+[[ "$LINE" =~ $REGEX ]]
+NAME=${BASH_REMATCH[1]}
+HTTP=${BASH_REMATCH[2]}
+response () {
+	echo "${HTTP:-HTTP/1.1} $1"
+	exit 0
+}
+
+# No name given
+[[ -z "$NAME" ]] && response "200 OK"
+
+# Check if NAME is available
+[[ "$(docker inspect --format='{{.State.Status}}' "$NAME" 2>/dev/null)" = "running" ]] && response "200 OK"
+
+# Not available
+response "503 Service Unavailable"
