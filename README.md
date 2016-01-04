@@ -22,8 +22,3 @@ docker exec -it stillonboard bash
 docker ps # May give client/server version mismatch error
 curl localhost:9000/stillonboard
 ```
-
-## To do
-
-- [ ] Fix Uptime Robot monitor (somehow `HEAD|GET 200 OK` response is not picked up)
-- [ ] Add support for whitelisting container names
