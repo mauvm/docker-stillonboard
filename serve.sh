@@ -20,7 +20,10 @@ response () {
 [[ -z "$NAME" ]] && response "400 Bad Request"
 
 # Check if NAME is available
-[[ "$(docker inspect --format='{{.State.Status}}' "$NAME" 2>/dev/null)" = "running" ]] && response "200 OK"
+[ "$(echo -e "GET /containers/json HTTP/1.1\r\n" | socat unix-connect:/var/run/docker.sock STDIO \
+	| tail -n1 | jq '.[].Names[]' 2>/dev/null \
+	| grep "\"\/$NAME\"" | wc -l)" = "1" ] \
+	&& response "200 OK"
 
 # Not available
 response "503 Service Unavailable"

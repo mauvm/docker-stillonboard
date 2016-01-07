@@ -1,7 +1,7 @@
-FROM looztra/alpine-docker-client
+FROM alpine:3.3
 MAINTAINER Maurits van Mastrigt <maurits@nerdieworks.nl>
 
-RUN apk add --update socat \
+RUN apk add --update socat jq \
 	&& rm -rf /var/cache/apk/*
 
 COPY serve.sh /serve
