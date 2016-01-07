@@ -7,5 +7,5 @@ RUN apk add --update socat jq \
 COPY serve.sh /serve
 RUN chmod +x /serve
 
-EXPOSE 9000
-CMD socat tcp-l:9000,reuseaddr,fork EXEC:/serve
+EXPOSE 8080
+CMD socat tcp-l:8080,reuseaddr,fork EXEC:/serve
