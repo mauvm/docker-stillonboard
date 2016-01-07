@@ -10,9 +10,11 @@ response () {
 	DATE=$(date +"%a, %d %b %Y %H:%M:%S %Z")
 	echo "${HTTP:-HTTP/1.1} $1"
 	echo "Date: $DATE"
-	echo "Expires: $DATE"
 	echo "Server: stillonboard"
 	echo "Access-Control-Allow-Origin: *"
+	echo "Content-Length: 0"
+	echo "Content-Type: text/plain; charset=utf-8"
+	echo
 	exit 0
 }
 
