@@ -8,9 +8,9 @@ A Bash webserver that inspects a Docker container (by given name) to check if it
 
 ```bash
 docker run -d -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock --name stillonboard mauvm/stillonboard
-curl localhost:8080/stillonboard # 200 OK
-curl localhost:8080/mysql        # 503 Service Unavailable
-# curl localhost:8080/<container name or id>
+curl -v localhost:8080/stillonboard # 200 OK
+curl -v localhost:8080/mysql        # 503 Service Unavailable
+# curl -v localhost:8080/<container name or id>
 ```
 
 This allows you to easily set up an external monitoring tool, like [Uptime Robot](https://uptimerobot.com/).
@@ -18,9 +18,12 @@ This allows you to easily set up an external monitoring tool, like [Uptime Robot
 ## Debugging
 
 ```bash
+make run
+make test
+
 docker exec -it stillonboard bash
 echo -e "GET /containers/json HTTP/1.1\r\n" | socat unix-connect:/var/run/docker.sock STDIO
 # Should output container info (JSON)
 
-curl localhost:8080/stillonboard
+curl -v localhost:8080/stillonboard
 ```
