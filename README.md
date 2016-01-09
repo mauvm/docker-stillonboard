@@ -1,6 +1,6 @@
 # Still On Board
 
-> Ultra lightweight Docker monitor (~8.5MB for full image).
+> Ultra lightweight Docker status reporter (~9.2MB for full image).
 
 A Bash webserver that inspects a Docker container (by given name) to check if it's still running.
 
@@ -8,8 +8,8 @@ A Bash webserver that inspects a Docker container (by given name) to check if it
 
 ```bash
 docker run -d -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock --name stillonboard mauvm/stillonboard
-curl -v localhost:8080/stillonboard # 200 OK
-curl -v localhost:8080/mysql        # 503 Service Unavailable
+curl -v localhost:8080/stillonboard          # 200 OK
+curl -v localhost:8080/nonExistingContainer  # 503 Service Unavailable
 # curl -v localhost:8080/<container name or id>
 ```
 
