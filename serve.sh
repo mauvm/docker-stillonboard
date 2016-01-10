@@ -1,12 +1,10 @@
 #!/bin/bash
 
-# Parse request
-read LINE
-REGEX='^(HEAD|GET) /([a-zA-Z0-9_]*) (HTTP/[0-9].[0-9])\s?$'
-[[ "$LINE" =~ $REGEX ]]
-NAME=${BASH_REMATCH[2]}
-HTTP=${BASH_REMATCH[3]}
+log () {
+	echo "[$(date +'%Y-%m-%d %H:%M:%S%z')] $@" >> /log.txt
+}
 response () {
+	log "Response for '$NAME': $1"
 	DATE=$(date +"%a, %d %b %Y %H:%M:%S %Z")
 	echo "${HTTP:-HTTP/1.1} $1"
 	echo "Date: $DATE"
@@ -17,6 +15,14 @@ response () {
 	echo
 	exit 0
 }
+
+# Parse request
+read LINE
+log "Request: $LINE"
+REGEX='^(HEAD|GET) /([a-zA-Z0-9_]*) (HTTP/[0-9].[0-9])\s?$'
+[[ "$LINE" =~ $REGEX ]]
+NAME=${BASH_REMATCH[2]}
+HTTP=${BASH_REMATCH[3]}
 
 # No name given
 [[ -z "$NAME" ]] && response "400 Bad Request"

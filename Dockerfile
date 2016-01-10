@@ -4,8 +4,10 @@ MAINTAINER Maurits van Mastrigt <maurits@nerdieworks.nl>
 RUN apk add --update bash socat jq \
 	&& rm -rf /var/cache/apk/*
 
-COPY serve.sh /serve
-RUN chmod +x /serve
+COPY run.sh /
+COPY serve.sh /
+RUN chmod +x /run.sh /serve.sh
+RUN touch /log.txt
 
 EXPOSE 8080
-CMD socat tcp-l:8080,reuseaddr,fork EXEC:/serve
+CMD /run.sh
