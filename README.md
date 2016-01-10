@@ -2,7 +2,7 @@
 
 > Ultra lightweight Docker status reporter (~9.2MB for full image).
 
-A Bash webserver that inspects a Docker container (by given name) to check if it's still running.
+A Bash webserver that inspects a Docker container (by given name, case insensitive) to check if it's still running.
 
 ## How to use
 

@@ -25,14 +25,14 @@ NAME=${BASH_REMATCH[2]}
 HTTP=${BASH_REMATCH[3]}
 
 # No name given
-[[ -z "$NAME" ]] && response "400 Bad Request"
+[ -z "$NAME" ] && response '400 Bad Request'
 
 # Check if NAME is available
 [ "$(echo -e "GET /containers/json HTTP/1.1\r\n" \
 	| socat unix-connect:/var/run/docker.sock STDIO \
 	| grep '\[{' | jq '.[].Names[]' 2>/dev/null \
-	| grep "\"\/$NAME\"" | wc -l)" = "1" ] \
-	&& response "200 OK"
+	| grep -i "\"\/$NAME\"" | wc -l)" = '1' ] \
+	&& response '200 OK'
 
 # Not available
-response "503 Service Unavailable"
+response '503 Service Unavailable'
