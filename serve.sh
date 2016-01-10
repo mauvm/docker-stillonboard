@@ -15,6 +15,12 @@ response () {
 	echo
 	exit 0
 }
+is_truthy () {
+	echo -n "$@" | grep -iqwE '^(y(es)?|true|1)$'
+}
+is_falsy () {
+	echo -n "$@" | grep -iqwE '^(no?|false|0)$'
+}
 
 # Parse request
 read LINE
@@ -26,6 +32,15 @@ HTTP=${BASH_REMATCH[3]}
 
 # No name given
 [ -z "$NAME" ] && response '400 Bad Request'
+
+# Black- and whitelisting
+NAME_UPPER=$(echo -n "ALLOW_$NAME" | awk '{print toupper($0)}')
+LISTED_AS=${!NAME_UPPER}
+
+if is_truthy $LISTED_AS ; then : # Noop
+elif is_falsy $LISTED_AS; then response '503 Service Unavailable'
+elif is_falsy $ALLOW    ; then response '503 Service Unavailable'
+fi
 
 # Check if NAME is available
 [ "$(echo -e "GET /containers/json HTTP/1.1\r\n" \
