@@ -7,7 +7,7 @@ A Bash webserver that inspects a Docker container (by given name, case insensiti
 ## How to use
 
 ```bash
-docker run -d -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock --name stillonboard mauvm/stillonboard
+docker run -d -p 8080:8080 -v /var/run/docker.sock:/var/run/docker.sock --name stillonboard mauvm/stillonboard:0.2
 curl -v localhost:8080/stillonboard     # 200 OK
 curl -v localhost:8080/other_container  # 503 Service Unavailable
 # curl -v localhost:8080/<container name or id>
@@ -15,6 +15,20 @@ curl -v localhost:8080/other_container  # 503 Service Unavailable
 
 This allows you to easily set up an external monitoring tool, like [Uptime Robot](https://uptimerobot.com/).
 
+```yml
+# docker-compose.yml
+stillonboard:
+    image: mauvm/stillonboard:0.2
+    container_name: stillonboard
+    ports:
+        - 8080:8080
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+        ALLOW: 0
+        ALLOW_STILLONBOARD: 1
+        ALLOW_OTHER_CONTAINER: 1
+```
 
 ## Configuration
 
@@ -28,7 +42,7 @@ docker run -d -p 8080:8080 \
 	-v /var/run/docker.sock:/var/run/docker.sock \
 	-e ALLOW=0 -e ALLOW_STILLONBOARD=1 \
 	-e ALLOW_MY_CONTAINER=1 \
-	--name stillonboard mauvm/stillonboard
+	--name stillonboard mauvm/stillonboard:0.2
 
 curl -v http://localhost:8080/my_container
 
