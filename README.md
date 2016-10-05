@@ -4,6 +4,9 @@
 
 A Bash webserver that inspects a Docker container (by given name, case insensitive) to check if it's still running.
 
+[![](https://images.microbadger.com/badges/image/mauvm/stillonboard.svg)](https://microbadger.com/images/mauvm/stillonboard "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/mauvm/stillonboard.svg)](https://microbadger.com/images/mauvm/stillonboard "Get your own version badge on microbadger.com")
+
 ## How to use
 
 ```bash
